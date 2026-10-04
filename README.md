@@ -72,18 +72,18 @@ Focus: Computer Science Fundamentals & Full-Stack Development
 ### 📊 GitHub Activity
 
 <div align="center">
-  <!-- Streak Stats (100% width) -->
-  <img src="https://streak-stats.demolab.com/?user=prem-dev135&theme=dark&background=0A101F&border_color=1E293B&stroke=1E293B&ring=10B981&fire=10B981&currStreakNum=22D3EE&sideNums=F1F5F9&currStreakLabel=22D3EE&sideLabels=A78BFA&dates=94A3B8" alt="Prem's Streak Stats" width="100%" />
+  <!-- Streak Stats (Compact & Centered) -->
+  <img src="https://streak-stats.demolab.com/?user=prem-dev135&theme=dark&background=0A101F&border_color=1E293B&stroke=1E293B&ring=10B981&fire=10B981&currStreakNum=22D3EE&sideNums=F1F5F9&currStreakLabel=22D3EE&sideLabels=A78BFA&dates=94A3B8" alt="Prem's Streak Stats" height="175" />
 </div>
 
 <br />
 
 <div align="center">
-  <!-- GitHub Overall Stats (49% width) -->
-  <img src="https://github-readme-stats.vercel.app/api?username=prem-dev135&show_icons=true&hide_border=false&hide_rank=true&bg_color=0A101F&border_color=1E293B&title_color=22D3EE&text_color=F1F5F9&icon_color=A78BFA" alt="Prem's GitHub Stats" width="49%" />
-  
-  <!-- Top Languages (49% width) -->
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=prem-dev135&layout=compact&hide_border=false&bg_color=0A101F&border_color=1E293B&title_color=22D3EE&text_color=F1F5F9" alt="Prem's Top Languages" width="49%" />
+  <!-- GitHub Overall Stats -->
+  <img src="https://github-readme-stats.vercel.app/api?username=prem-dev135&show_icons=true&hide_border=false&hide_rank=true&bg_color=0A101F&border_color=1E293B&title_color=22D3EE&text_color=F1F5F9&icon_color=A78BFA" alt="Prem's GitHub Stats" height="165" />
+  &nbsp;
+  <!-- Top Languages -->
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=prem-dev135&layout=compact&hide_border=false&bg_color=0A101F&border_color=1E293B&title_color=22D3EE&text_color=F1F5F9" alt="Prem's Top Languages" height="165" />
 </div>
 
 <br />
