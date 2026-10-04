@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Prem Mundargi — Animated Banners Preview</title>
+<style>
+  body {
+    background: #050811;
+    color: #F1F5F9;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    margin: 0;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  h1 {
+    font-size: 24px;
+    color: #22D3EE;
+    margin-bottom: 24px;
+  }
+  .banner-card {
+    margin-bottom: 40px;
+    width: 100%;
+    max-width: 1180px;
+    background: #0A101F;
+    border: 1px solid #1E293B;
+    border-radius: 14px;
+    overflow: hidden;
+    padding: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+  .banner-card.light {
+    background: #F8FAFC;
+    border: 1px solid #CBD5E1;
+  }
+  .banner-card h2 {
+    font-size: 15px;
+    margin: 0 0 12px 6px;
+    color: #22D3EE;
+  }
+  .banner-card.light h2 {
+    color: #0891B2;
+  }
+  object, img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+</style>
+</head>
+<body>
+  <h1>Prem Mundargi — GitHub Profile Banners (Phase 1)</h1>
+  
+  <div class="banner-card">
+    <h2>dark.svg (Dark Theme)</h2>
+    <object type="image/svg+xml" data="dark.svg"></object>
+  </div>
+
+  <div class="banner-card light">
+    <h2>light.svg (Light Theme)</h2>
+    <object type="image/svg+xml" data="light.svg"></object>
+  </div>
+</body>
+</html>
