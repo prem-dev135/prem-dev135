@@ -1,61 +1,66 @@
-# Hi, I'm Prem 👋
-
+<!-- ========================================== -->
+<!-- 1. ANIMATED BANNER (THEME-AWARE)           -->
+<!-- ========================================== -->
 <div align="center">
-  <a href="https://git.io/typing-svg">
-    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=20&pause=1000&color=38BDF8&center=true&vCenter=true&width=480&lines=Aspiring+Software+Developer;Learning+to+Build+Great+Software;Documenting+My+Coding+Journey" alt="Typing SVG" />
-  </a>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/prem-dev135/prem-dev135/main/dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/prem-dev135/prem-dev135/main/light.svg" />
+    <img alt="Prem Mundargi — Live Profile" src="https://raw.githubusercontent.com/prem-dev135/prem-dev135/main/dark.svg" width="100%" />
+  </picture>
 </div>
 
 <br />
 
-### 🚀 About Me
-
-- 🔭 **Currently Learning** — Web development fundamentals: HTML5, CSS3, JavaScript, and Python.
-- 🎯 **Goal** — Building strong computer science fundamentals and growing into a Full-Stack Developer.
-- 💡 **Mindset** — Learning by building real projects, solving problems, and documenting progress.
-- 🤝 **Collaboration** — Open to connecting with fellow beginners, study buddies, and mentors!
-
----
-
-### 🛠️ Currently Learning & Tools
-
-<p align="left">
-  <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white" alt="HTML5" />
-  <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white" alt="CSS3" />
-  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black" alt="JavaScript" />
-  <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python" />
-  <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white" alt="Git" />
-  <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white" alt="GitHub" />
-  <img src="https://img.shields.io/badge/VS_Code-007ACC?style=flat-square&logo=visualstudiocode&logoColor=white" alt="VS Code" />
-</p>
-
----
-
-### 🎯 2026 Goals & Roadmap
-
-- [ ] Master Git and GitHub daily workflows
-- [ ] Build and deploy my first 3 JavaScript projects
-- [ ] Build a responsive portfolio website
-- [ ] Contribute to my first open-source project
-
----
-
-### 📊 GitHub Activity
-
+<!-- ========================================== -->
+<!-- 2. GITHUB STATS & STREAK (THEMED PALETTE)  -->
+<!-- ========================================== -->
 <div align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=prem-dev135&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0d1117" alt="Prem's GitHub Stats" height="150" />
-  <img src="https://streak-stats.demolab.com/?user=prem-dev135&theme=tokyonight&hide_border=true&background=0d1117" alt="Prem's GitHub Streak" height="150" />
+  <!-- Streak Stats (100% width) -->
+  <img src="https://streak-stats.demolab.com/?user=prem-dev135&theme=dark&background=0A101F&border_color=1E293B&stroke=1E293B&ring=10B981&fire=10B981&currStreakNum=22D3EE&sideNums=F1F5F9&currStreakLabel=22D3EE&sideLabels=A78BFA&dates=94A3B8" alt="Prem's Streak Stats" width="100%" />
 </div>
 
----
+<br />
 
-### 📫 Connect With Me
+<div align="center">
+  <!-- GitHub Overall Stats (49% width) -->
+  <img src="https://github-readme-stats.vercel.app/api?username=prem-dev135&show_icons=true&hide_border=false&hide_rank=true&bg_color=0A101F&border_color=1E293B&title_color=22D3EE&text_color=F1F5F9&icon_color=A78BFA" alt="Prem's GitHub Stats" width="49%" />
+  
+  <!-- Top Languages (49% width) -->
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=prem-dev135&layout=compact&hide_border=false&bg_color=0A101F&border_color=1E293B&title_color=22D3EE&text_color=F1F5F9" alt="Prem's Top Languages" width="49%" />
+</div>
 
-<p align="left">
+<br />
+
+<!-- ========================================== -->
+<!-- 3. CONTRIBUTION SNAKE (THEME-AWARE)       -->
+<!-- ========================================== -->
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/prem-dev135/prem-dev135/output/github-contribution-grid-snake-dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/prem-dev135/prem-dev135/output/github-contribution-grid-snake-light.svg" />
+    <img alt="Contribution Grid Snake" src="https://raw.githubusercontent.com/prem-dev135/prem-dev135/output/github-contribution-grid-snake-dark.svg" width="100%" />
+  </picture>
+</div>
+
+<br />
+
+<!-- ========================================== -->
+<!-- 4. SOCIAL BADGES (FOR-THE-BADGE)          -->
+<!-- ========================================== -->
+<div align="center">
+  <a href="https://linkedin.com/in/prem-mundargi" target="_blank">
+    <img src="https://img.shields.io/badge/LinkedIn-0A101F?style=for-the-badge&logo=linkedin&logoColor=0A66C2" alt="LinkedIn" />
+  </a>
+  &nbsp;
+  <a href="https://instagram.com/prem_mundargi" target="_blank">
+    <img src="https://img.shields.io/badge/Instagram-0A101F?style=for-the-badge&logo=instagram&logoColor=E4405F" alt="Instagram" />
+  </a>
+  &nbsp;
   <a href="mailto:premmundargi135@gmail.com">
-    <img src="https://img.shields.io/badge/Email-premmundargi135%40gmail.com-EA4335?style=flat-square&logo=gmail&logoColor=white" alt="Email" />
+    <img src="https://img.shields.io/badge/Gmail-0A101F?style=for-the-badge&logo=gmail&logoColor=EA4335" alt="Gmail" />
   </a>
-  <a href="https://github.com/prem-dev135">
-    <img src="https://img.shields.io/badge/GitHub-prem--dev135-181717?style=flat-square&logo=github&logoColor=white" alt="GitHub" />
+  &nbsp;
+  <a href="https://facebook.com/prem.mundargi" target="_blank">
+    <img src="https://img.shields.io/badge/Facebook-0A101F?style=for-the-badge&logo=facebook&logoColor=1877F2" alt="Facebook" />
   </a>
-</p>
+</div>
