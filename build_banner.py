@@ -54,14 +54,18 @@ def build_banner():
     mask[265:, 250:] = False
     mask[265:, :35] = False
     
-    # Photographic contrast enhancements as specified:
-    # contrast 1.3x, autocontrast(cutoff=1), UnsharpMask(radius=3, percent=140)
+    # Photographic contrast and facial brightness enhancement
     gray = cropped.convert('L')
-    gray = ImageEnhance.Contrast(gray).enhance(1.3)
+    gray = ImageEnhance.Brightness(gray).enhance(1.22)
+    gray = ImageEnhance.Contrast(gray).enhance(1.35)
     gray = ImageOps.autocontrast(gray, cutoff=1)
-    gray = gray.filter(ImageFilter.UnsharpMask(radius=3, percent=140))
+    gray = gray.filter(ImageFilter.UnsharpMask(radius=3, percent=160))
     gray_arr = np.array(gray, dtype=np.float32)
-    
+
+    # Selectively boost facial skin values for clear highlight density
+    skin_mask = skin & mask & (np.arange(340)[:, None] > 60) & (np.arange(340)[:, None] < 210) & (np.arange(300)[None, :] > 80) & (np.arange(300)[None, :] < 220)
+    gray_arr[skin_mask] = np.clip(gray_arr[skin_mask] * 1.15 + 10, 0, 255)
+
     def dither_serpentine(src, mask_filter=None, invert=False):
         h, w = src.shape
         mat = src.copy()
@@ -70,12 +74,7 @@ def build_banner():
         out = np.zeros((h, w), dtype=np.uint8)
         
         for y in range(h):
-            if y % 2 == 0:
-                x_range = range(w)
-                direction = 1
-            else:
-                x_range = range(w - 1, -1, -1)
-                direction = -1
+            x_range, direction = (range(w), 1) if y % 2 == 0 else (range(w - 1, -1, -1), -1)
                 
             for x in x_range:
                 if mask_filter is not None and not mask_filter[y, x]:
@@ -83,7 +82,8 @@ def build_banner():
                     continue
                     
                 old_val = mat[y, x]
-                new_val = 255.0 if old_val >= 128.0 else 0.0
+                threshold = 120.0 if not invert else 128.0
+                new_val = 255.0 if old_val >= threshold else 0.0
                 out[y, x] = 1 if new_val == 255.0 else 0
                 err = old_val - new_val
                 
@@ -220,6 +220,37 @@ def build_banner():
     print(f'Intro evenness metric: {intro_evenness:.4f} (target: ~0.05 good, 0.7 patchy)')
 
     # 5. Traveller layer (900 dots)
+    def ensure_logo_pngs():
+        import re, subprocess
+        exe = r'C:\Program Files\Google\Chrome\Application\chrome.exe'
+        if not (os.path.exists('logo_py.png') and os.path.exists('logo_code.png') and os.path.exists('logo_gh.png')):
+            with open('python.svg', 'r') as f:
+                py_path = re.search(r'd="([^"]+)"', f.read()).group(1)
+            with open('github.svg', 'r') as f:
+                gh_path = re.search(r'd="([^"]+)"', f.read()).group(1)
+            
+            code_svg = '''<svg width="300" height="340" viewBox="0 0 300 340" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="340" fill="white"/>
+            <g transform="translate(150, 170) scale(4.8) translate(-24, -24)" fill="black" stroke="black" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 14 L8 24 L16 34" fill="none"/>
+              <path d="M32 14 L40 24 L32 34" fill="none"/>
+              <line x1="28" y1="12" x2="20" y2="36" />
+            </g>
+            </svg>'''
+            py_svg = f'''<svg width="300" height="340" viewBox="0 0 300 340" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="340" fill="white"/>
+            <g transform="translate(150, 170) scale(6.2) translate(-12, -12)" fill="black"><path d="{py_path}"/></g></svg>'''
+            gh_svg = f'''<svg width="300" height="340" viewBox="0 0 300 340" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="340" fill="white"/>
+            <g transform="translate(150, 170) scale(6.2) translate(-12, -12)" fill="black"><path d="{gh_path}"/></g></svg>'''
+            
+            for name, content in [('py', py_svg), ('code', code_svg), ('gh', gh_svg)]:
+                with open(f'_temp_{name}.svg', 'w') as f: f.write(content)
+                subprocess.run([exe, '--headless=new', f'--screenshot={os.path.abspath(f"logo_{name}.png")}', '--window-size=300,340', f'file:///{os.path.abspath(f"_temp_{name}.svg")}'], capture_output=True)
+                if os.path.exists(f'_temp_{name}.svg'): os.remove(f'_temp_{name}.svg')
+
+    ensure_logo_pngs()
+
     def sample_points(png_path, n_points=900):
         img = Image.open(png_path).convert('L')
         arr = np.array(img)
