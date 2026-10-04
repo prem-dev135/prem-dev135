@@ -7,13 +7,14 @@ from PIL import Image, ImageEnhance, ImageOps, ImageFilter
 import subprocess
 
 def build_banner():
-    # 1. Process portrait from attached photo
-    photo_path = 'IMG-20260130-WA0169.jpg' if os.path.exists('IMG-20260130-WA0169.jpg') else 'avatar.png'
+    # 1. Process portrait from prem.png
+    photo_path = 'prem.png' if os.path.exists('prem.png') else ('IMG-20260130-WA0169.jpg' if os.path.exists('IMG-20260130-WA0169.jpg') else 'avatar.png')
     img = Image.open(photo_path).convert('RGB')
     
-    # Head and shoulders crop:
-    # IMG-20260130-WA0169.jpg is 3072 x 4096
-    if photo_path.endswith('.jpg'):
+    w, h = img.size
+    if 'prem.png' in photo_path:
+        crop_box = (0, 100, w, 100 + int(w * 340 / 300))
+    elif photo_path.endswith('.jpg'):
         crop_box = (450, 700, 2622, 3160)
     else:
         crop_box = (75, 15, 395, 378)
@@ -21,50 +22,72 @@ def build_banner():
     cropped = img.crop(crop_box).resize((300, 340), Image.Resampling.LANCZOS)
     arr = np.array(cropped, dtype=np.float32)
     
-    # Dark mode segmentation mask
+    # Segmentation mask
     r, g, b = arr[..., 0], arr[..., 1], arr[..., 2]
-    shirt = (r > g + 25) & (g < 80) & (b < 85)
-    skin = (r > 90) & (g > 50) & (b > 30) & (r > g + 10) & (g > b) & ((r - b) > 20) & (g < 140)
-    hair = (r < 70) & (g < 65) & (b < 65) & (np.arange(340)[:, None] < 180) & (np.arange(300)[None, :] < 230) & (np.arange(300)[None, :] > 70)
-    collar = (np.arange(340)[:, None] > 160) & (np.arange(340)[:, None] < 220) & (np.arange(300)[None, :] > 120) & (np.arange(300)[None, :] < 180)
-    
-    fg_raw = shirt | skin | hair | collar
-    labeled, num_features = ndi.label(fg_raw)
-    bottom_labels = np.unique(labeled[320:, 60:240])
-    bottom_labels = bottom_labels[bottom_labels > 0]
-    mask = np.isin(labeled, bottom_labels)
-    mask = ndi.binary_closing(mask, structure=np.ones((9, 9)))
-    mask = ndi.binary_fill_holes(mask)
-    
-    top_labels = np.unique(labeled[30:100, 100:200])
-    top_labels = top_labels[top_labels > 0]
-    head_mask = np.isin(labeled, top_labels)
-    mask = mask | head_mask
-    mask = ndi.binary_closing(mask, structure=np.ones((11, 11)))
-    mask = ndi.binary_fill_holes(mask)
-    
-    labeled, num = ndi.label(mask)
-    if num > 0:
-        sizes = ndi.sum(mask, labeled, range(1, num + 1))
-        mask = (labeled == (np.argmax(sizes) + 1))
-        
-    mask = ndi.binary_closing(mask, structure=np.ones((5, 5)))
-    mask = ndi.binary_fill_holes(mask)
-    # Clear stray foliage at bottom edges
-    mask[265:, 250:] = False
-    mask[265:, :35] = False
+    if 'prem.png' in photo_path:
+        # Studio background segmentation
+        bg = (r > 175) & (g > 175) & (b > 175) & (np.abs(r - g) < 15) & (np.abs(g - b) < 15)
+        labeled_bg, _ = ndi.label(bg)
+        border_mask = np.zeros_like(bg)
+        border_mask[0, :] = True
+        border_mask[:, 0] = True
+        border_mask[:, -1] = True
+        border_labels = np.unique(labeled_bg[border_mask])
+        border_labels = border_labels[border_labels > 0]
+        actual_bg = np.isin(labeled_bg, border_labels)
+        mask = ~actual_bg
+        mask = ndi.binary_closing(mask, structure=np.ones((7, 7)))
+        mask = ndi.binary_fill_holes(mask)
+        labeled, num = ndi.label(mask)
+        if num > 0:
+            sizes = ndi.sum(mask, labeled, range(1, num + 1))
+            mask = (labeled == (np.argmax(sizes) + 1))
+        mask = ndi.binary_closing(mask, structure=np.ones((5, 5)))
+        mask = ndi.binary_fill_holes(mask)
+    else:
+        shirt = (r > g + 25) & (g < 80) & (b < 85)
+        skin = (r > 90) & (g > 50) & (b > 30) & (r > g + 10) & (g > b) & ((r - b) > 20) & (g < 140)
+        hair = (r < 70) & (g < 65) & (b < 65) & (np.arange(340)[:, None] < 180) & (np.arange(300)[None, :] < 230) & (np.arange(300)[None, :] > 70)
+        collar = (np.arange(340)[:, None] > 160) & (np.arange(340)[:, None] < 220) & (np.arange(300)[None, :] > 120) & (np.arange(300)[None, :] < 180)
+        fg_raw = shirt | skin | hair | collar
+        labeled, num_features = ndi.label(fg_raw)
+        bottom_labels = np.unique(labeled[320:, 60:240])
+        bottom_labels = bottom_labels[bottom_labels > 0]
+        mask = np.isin(labeled, bottom_labels)
+        mask = ndi.binary_closing(mask, structure=np.ones((9, 9)))
+        mask = ndi.binary_fill_holes(mask)
+        top_labels = np.unique(labeled[30:100, 100:200])
+        top_labels = top_labels[top_labels > 0]
+        head_mask = np.isin(labeled, top_labels)
+        mask = mask | head_mask
+        mask = ndi.binary_closing(mask, structure=np.ones((11, 11)))
+        mask = ndi.binary_fill_holes(mask)
+        labeled, num = ndi.label(mask)
+        if num > 0:
+            sizes = ndi.sum(mask, labeled, range(1, num + 1))
+            mask = (labeled == (np.argmax(sizes) + 1))
+        mask = ndi.binary_closing(mask, structure=np.ones((5, 5)))
+        mask = ndi.binary_fill_holes(mask)
+        mask[265:, 250:] = False
+        mask[265:, :35] = False
     
     # Photographic contrast and facial brightness enhancement
     gray = cropped.convert('L')
-    gray = ImageEnhance.Brightness(gray).enhance(1.22)
+    gray = ImageEnhance.Brightness(gray).enhance(1.18)
     gray = ImageEnhance.Contrast(gray).enhance(1.35)
     gray = ImageOps.autocontrast(gray, cutoff=1)
     gray = gray.filter(ImageFilter.UnsharpMask(radius=3, percent=160))
     gray_arr = np.array(gray, dtype=np.float32)
 
     # Selectively boost facial skin values for clear highlight density
-    skin_mask = skin & mask & (np.arange(340)[:, None] > 60) & (np.arange(340)[:, None] < 210) & (np.arange(300)[None, :] > 80) & (np.arange(300)[None, :] < 220)
+    skin_mask = mask & (np.arange(340)[:, None] > 60) & (np.arange(340)[:, None] < 215) & (np.arange(300)[None, :] > 85) & (np.arange(300)[None, :] < 215) & (r > g) & (g > b)
     gray_arr[skin_mask] = np.clip(gray_arr[skin_mask] * 1.15 + 10, 0, 255)
+
+    # For dark suit jacket: enhance lapels/edges so suit has clean structural definition
+    suit_mask = mask & (gray_arr < 80) & (np.arange(340)[:, None] > 200)
+    edges = ndi.sobel(gray_arr)
+    suit_edges = (np.abs(edges) > 30) & suit_mask
+    gray_arr[suit_edges] = np.clip(gray_arr[suit_edges] + 70, 0, 255)
 
     def dither_serpentine(src, mask_filter=None, invert=False):
         h, w = src.shape
